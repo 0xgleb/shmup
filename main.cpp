@@ -9,7 +9,7 @@ namespace constant {
 		const int height = 720;
 	}
 	namespace bcg {
-		const char* path = const_cast<char *>("images/bcg.png");
+		const char* path = const_cast<char *>("images/bcg.jpg");
 	}
 }
 
@@ -38,7 +38,40 @@ int main() {
 		return 1;
 	}
 
-	// SDL_Surface *surface = IMG_Load(constant::bcg::path);
+	SDL_Surface *surface = IMG_Load(constant::bcg::path);
+	if(!surface) {
+		cout << "An error occured while creating surface" << SDL_GetError() << endl;
+		SDL_DestroyRenderer(renderer);
+		SDL_DestroyWindow(win);
+		SDL_Quit();
+		return 1;
+	}
+
+	SDL_Texture *texture = NULL;
+	SDL_Rect *selection = new SDL_Rect;
+	SDL_Rect *destination = selection;
+	selection -> x = selection -> y = 0;
+	selection -> w = constant::window::width;
+	selection -> h = constant::window::height;
+	texture = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_FreeSurface(surface);
+	if(!texture) {
+		cout << "An error occured while creating texture for background: " << SDL_GetError() << endl;
+		SDL_DestroyRenderer(renderer);
+		SDL_DestroyWindow(win);
+		SDL_Quit();
+	}
+
+	SDL_RenderClear(renderer);
+	SDL_RenderCopy(renderer, texture, selection, destination);
+	SDL_RenderPresent(renderer);
+	
+	SDL_Delay(1000);
+
+	SDL_DestroyTexture(texture);
+	SDL_DestroyRenderer(renderer);
+	SDL_DestroyWindow(win);
+	SDL_Quit();
 
 	return 0;
 }

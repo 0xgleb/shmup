@@ -3,7 +3,7 @@
 #include <SDL2/SDL_image.h>
 
 namespace constant {
-	const title = "Shmup";
+	const char *title = const_cast<char *>("Shmup");
 	namespace window {
 		const int width = 1280;
 		const int height = 720;
@@ -12,6 +12,8 @@ namespace constant {
 		const char* path = const_cast<char *>("images/bcg.png");
 	}
 }
+
+using namespace std;
 
 int main() {
 	if(SDL_Init(SDL_INIT_VIDEO|SDL_INIT_TIMER)) {

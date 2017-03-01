@@ -7,10 +7,10 @@ CC := g++
 FLAGS := `sdl2-config --libs --cflags` -ggdb3 -O0 -Wall -lSDL2main -lSDL2 -lSDL2_image -lm -ggdb
 
 # add header files here
-HDRS := body/body.hpp sdl/sdl.hpp body/vector/vector.hpp body/ship/ship.hpp body/weapon/weapon.hpp body/ship/player/player.hpp common/rect/rect.hpp common/constants.hpp
+HDRS := 
 
 # add source files here
-SRCS := main.cpp body/body.cpp sdl/sdl.cpp body/vector/vector.cpp body/ship/ship.cpp body/weapon/weapon.cpp body/ship/player/player.cpp common/rect/rect.cpp common/constants.cpp 
+SRCS := main.cpp 
 
 # generate names of object files
 OBJS := $(SRCS:.cpp=.o)

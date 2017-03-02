@@ -11,6 +11,21 @@ namespace constant {
 	namespace bcg {
 		extern const char* path;
 	}
+	namespace player {
+		extern const char* path;
+		extern const int width;
+		extern const int height;
+		extern const int selX;
+		extern const int selY;
+		extern const int speed;
+	}
+	namespace bullet {
+		extern const char *path;
+		extern const int selX;
+		extern const int selY;
+		extern const int selW;
+		extern const int selH;
+	}
 }
 
 #endif

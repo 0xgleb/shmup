@@ -10,4 +10,19 @@ namespace constant {
 	namespace bcg {
 		const char *path = const_cast<char *>("images/bcg.jpg");
 	}
+	namespace player {
+		const char* path = const_cast<char *>("images/shmup.png");
+		const int width = 41;
+		const int height = 32;
+		const int selX = 9;
+		const int selY = 15;
+		const int speed = 10;
+	}
+	namespace bullet {
+		const char *path = const_cast<char *>("images/sprites.png");
+		const int selX = 150;
+		const int selY = 200;
+		const int selW = 10;
+		const int selH = 30;
+	}
 }

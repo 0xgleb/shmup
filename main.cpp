@@ -4,6 +4,7 @@
 #include "include/constant.hpp"
 #include "include/sdl.hpp"
 #include "include/body.hpp"
+#include "include/ship.hpp"
 #include "include/list.hpp"
 
 using namespace std;
@@ -12,15 +13,26 @@ int main() {
 	Sdl sdl(constant::title, constant::bcg::path, 
 			constant::window::width, constant::window::height);
 
-	Body player((constant::window::width - constant::player::width) / 2,
-			constant::window::height - constant::player::height, 
+	Ship player((constant::window::width - constant::player::selW) / 2,
+			constant::window::height - constant::player::selH, 
 			constant::player::selX, constant::player::selY,
-			constant::player::width, constant::player::height);
+			constant::player::selW, constant::player::selH);
 	player.texture(sdl.createTexture(constant::player::path));
+	player.bullets().texture(sdl.createTexture(constant::sprites));
+	player.bullets().selection(constant::bullet::selX, constant::bullet::selY, 
+			constant::bullet::selW, constant::bullet::selH);
 
-	List bullets;
+	Ship enemy((constant::window::width - constant::enemy::selW) / 2,
+			constant::enemy::selH, constant::enemy::selX, 
+			constant::enemy::selY, constant::enemy::selW, constant::enemy::selH);
+	enemy.texture(sdl.createTexture(constant::sprites));
+	
+	List enemies;
+	enemies.addNode(&enemy);
+	enemies.texture(sdl.createTexture(constant::sprites));
+	enemies.selection(constant::enemy::selX, constant::enemy::selY,
+			constant::enemy::selW, constant::enemy::selH);
 
-	Body *bullet;
 	clock_t begin;
 	bool close_requested = false,
 			 right, left, up, down;
@@ -29,12 +41,12 @@ int main() {
 	while(true) {
 		begin = clock();
 		while(SDL_PollEvent(event)) {
-      switch(event -> type) {
+      switch(event->type) {
         case SDL_QUIT:
           close_requested = true;
           break;
         case SDL_KEYDOWN:
-          switch(event -> key.keysym.scancode) {
+          switch(event->key.keysym.scancode) {
             case SDL_SCANCODE_D:
             case SDL_SCANCODE_RIGHT:
 							right = true;
@@ -52,18 +64,14 @@ int main() {
 							down = true;
               break;
             case SDL_SCANCODE_SPACE:
-							bullet = player.shoot(constant::bullet::selX, 
-									constant::bullet::selY,constant::bullet::selW, 
-									constant::bullet::selH); 
-							bullet -> texture(sdl.createTexture(constant::bullet::path));
-							bullets.addNode(bullet);
+							player.shoot(); 
               break;
             default:
               break;
           }
           break;
         case SDL_KEYUP:
-          switch(event -> key.keysym.scancode) {
+          switch(event->key.keysym.scancode) {
             case SDL_SCANCODE_D:
             case SDL_SCANCODE_RIGHT:
 							right = false;
@@ -106,18 +114,19 @@ int main() {
 
 		player.coord() += player.velocity();
 		if(player.coord().x() < 0 || 
-				constant::window::width - constant::player::width < player.coord().x())
+				constant::window::width - constant::player::selW < player.coord().x())
 			player.coord().x() = 
 				(player.coord().x() < 0) ? 0 : 
-				constant::window::width - constant::player::width;
+				constant::window::width - constant::player::selW;
 		if(player.coord().y() < (2 * constant::window::height / 3) || 
-				constant::window::height-constant::player::height < player.coord().y())
+				constant::window::height-constant::player::selH < player.coord().y())
 			player.coord().y() = 
 				(player.coord().y() < 2 * constant::window::height / 3) 
 				? 2 * constant::window::height / 3 
-				: constant::window::height - constant::player::height;
+				: constant::window::height - constant::player::selH;
 
-		sdl.render(player, bullets);
+		player.bullets().update();
+		sdl.render(player, enemies);
     SDL_Delay(1000 / constant::fps 
 				+ static_cast<int>((begin - clock()) / CLOCKS_PER_SEC) * 1000);
 	}

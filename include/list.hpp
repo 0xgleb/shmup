@@ -16,9 +16,16 @@ class List {
 		List(Body *body);
 		~List();
 		struct node* addNode(Body *body);
-		void call(int (*f)(SDL_Renderer*, SDL_Texture*, 
-					const SDL_Rect*, const SDL_Rect*), SDL_Renderer *renderer);
+		struct node* delNode(struct node *target);
+		void texture(SDL_Texture *arg);
+		void selection(int selX,int selY, int selW, int selH);
+		SDL_Rect* selection();
+		int count();
+		void render(SDL_Renderer *renderer);
+		void update();
 	private:
+		SDL_Texture *_texture;
+		SDL_Rect *_selection;
 		struct node *_first;
 };
 

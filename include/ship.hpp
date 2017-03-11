@@ -18,7 +18,7 @@ class Ship: public Body {
 		List<Body>* bullets();
 		SDL_Texture* texture();
 		SDL_Texture* texture(SDL_Texture *newTexture);
-		int getDamage(int lostHp);
+		int applyDamage(int lostHp);
 	private:
 		List<Body>* _bullets;
 		int _health;

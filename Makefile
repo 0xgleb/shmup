@@ -4,7 +4,7 @@
 CC := g++
 
 # set the compiler flags
-FLAGS := `sdl2-config --libs --cflags` -ggdb3 -O0 -Wall -lSDL2main -lSDL2 -lSDL2_image -lm -ggdb
+FLAGS := -std=c++11 `sdl2-config --libs --cflags` -ggdb3 -O0 -Wall -lSDL2main -lSDL2 -lSDL2_image -lm -ggdb
 
 # add header files here
 HDRS := include/vector.hpp include/body.hpp include/sdl.hpp include/constant.hpp include/list.hpp include/ship.hpp 

@@ -49,6 +49,6 @@ SDL_Rect* Ship::selection() {
 	return this->_selection;
 }
 
-int Ship::getDamage(int lostHp) {
+int Ship::applyDamage(int lostHp) {
 	return this->_health -= lostHp;
 }

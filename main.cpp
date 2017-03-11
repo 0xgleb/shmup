@@ -127,7 +127,7 @@ int main() {
 
 		player.bullets()->update();
 
-		getDamage(enemies, *player.bullets());
+		doDamage(enemies, *player.bullets());
 
 		sdl.render(player, enemies);
     SDL_Delay(1000 / constant::fps 

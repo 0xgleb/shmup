@@ -28,12 +28,13 @@ template<class T> class List {
 		void render(SDL_Renderer *renderer);
 		void update();
 		int countIntersections(Vector& coord, int width, int height);
-		friend void getDamage(List<Ship>& enemies, List<Body>& bullets);
+		friend void doDamage(List<Ship>& enemies, List<Body>& bullets);
 	private:
 		SDL_Texture *_texture;
 		SDL_Rect *_selection;
 		struct node<T> *_first;
 };
+
 
 template<class T> List<T>::List() {
 	this->_first = NULL;
@@ -66,12 +67,13 @@ template<class T> struct node<T>* List<T>::delNode(struct node<T> *target) {
 	if(!target->prev) {
 		this->_first = target->next;
 		delete target;
+
 		if(this->_first) {
 			this->_first->prev = NULL;
 			return this->_first->next;
 		}
-		else
-			return NULL;
+		
+		return NULL;
 	}
 
 	struct node<T> *prev = target->prev;
@@ -127,10 +129,10 @@ template<class T> void List<T>::render(SDL_Renderer* renderer) {
 
 template<class T> int List<T>::countIntersections(Vector& coord, int width, int height) {
 	int count;
-	struct node<T> *current = this->_first;
 	Vector tmp;
-	current = this->_first;
-	for(count = 0; current; current = current->next, tmp = current->val->coord() - coord) {
+	struct node<T> *current = this->_first;
+	for(count = 0; current; current = (current) ? current->next : NULL) {
+		tmp = (current->val->coord() - coord);
 		if(tmp.x() <= width && tmp.y() <= height) {
 			current = this->delNode(current);
 			count++;

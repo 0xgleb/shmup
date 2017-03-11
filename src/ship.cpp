@@ -1,7 +1,10 @@
 #include "../include/ship.hpp"
+#include "../include/list.hpp"
 #include <iostream>
 
 Ship::Ship(int x, int y, int selX, int selY, int selW, int selH):Body(x,y,selW,selH) {
+	this->_bullets = new List<Body>;
+	
 	this->_health = 100;
 
 	this->_selection = new SDL_Rect;
@@ -25,13 +28,13 @@ int Ship::health(int arg) {
 
 void Ship::shoot() {
 	Body *bullet = new Body(this->_coord.x() + this->_destination->w /2, this->_coord.y(),
-			this->_bullets.selection()->w, this->_bullets.selection()->h);
+			this->_bullets->selection()->w, this->_bullets->selection()->h);
 	bullet->velocity().x(this->velocity().x());
 	bullet->velocity().y(this->velocity().y() - 20);
-	this->_bullets.addNode(bullet);
+	this->_bullets->addNode(bullet);
 }
 
-List& Ship::bullets() {
+List<Body>* Ship::bullets() {
 	return this->_bullets;
 }
 
@@ -44,4 +47,8 @@ SDL_Texture* Ship::texture(SDL_Texture *newTexture) {
 
 SDL_Rect* Ship::selection() {
 	return this->_selection;
+}
+
+int Ship::getDamage(int lostHp) {
+	return this->_health -= lostHp;
 }

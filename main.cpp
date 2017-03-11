@@ -3,9 +3,9 @@
 
 #include "include/constant.hpp"
 #include "include/sdl.hpp"
+#include "include/list.hpp"
 #include "include/body.hpp"
 #include "include/ship.hpp"
-#include "include/list.hpp"
 
 using namespace std;
 
@@ -18,8 +18,8 @@ int main() {
 			constant::player::selX, constant::player::selY,
 			constant::player::selW, constant::player::selH);
 	player.texture(sdl.createTexture(constant::player::path));
-	player.bullets().texture(sdl.createTexture(constant::sprites));
-	player.bullets().selection(constant::bullet::selX, constant::bullet::selY, 
+	player.bullets()->texture(sdl.createTexture(constant::sprites));
+	player.bullets()->selection(constant::bullet::selX, constant::bullet::selY, 
 			constant::bullet::selW, constant::bullet::selH);
 
 	Ship enemy((constant::window::width - constant::enemy::selW) / 2,
@@ -27,7 +27,7 @@ int main() {
 			constant::enemy::selY, constant::enemy::selW, constant::enemy::selH);
 	enemy.texture(sdl.createTexture(constant::sprites));
 	
-	List enemies;
+	List<Ship> enemies;
 	enemies.addNode(&enemy);
 	enemies.texture(sdl.createTexture(constant::sprites));
 	enemies.selection(constant::enemy::selX, constant::enemy::selY,
@@ -125,7 +125,10 @@ int main() {
 				? 2 * constant::window::height / 3 
 				: constant::window::height - constant::player::selH;
 
-		player.bullets().update();
+		player.bullets()->update();
+
+		getDamage(enemies, *player.bullets());
+
 		sdl.render(player, enemies);
     SDL_Delay(1000 / constant::fps 
 				+ static_cast<int>((begin - clock()) / CLOCKS_PER_SEC) * 1000);

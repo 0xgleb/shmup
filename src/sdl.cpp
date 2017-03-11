@@ -89,13 +89,13 @@ SDL_Texture* Sdl::createTexture(const char *path) {
 	return result;
 }
 
-void Sdl::render(Ship& player, List& enemies) {
+void Sdl::render(Ship& player, List<Ship>& enemies) {
 	SDL_RenderClear(this->_renderer);
 	SDL_RenderCopy(this->_renderer, this->_bcg, this->_bcg_size, this->_bcg_size);
 	enemies.render(this->_renderer);
 	SDL_RenderCopy(this->_renderer, player.texture(), 
 				player.selection(), player.destination());
-	player.bullets().render(this->_renderer);
+	player.bullets()->render(this->_renderer);
 	
 	// SDL_RenderDrawRect(this->_renderer, body.destination());
 	SDL_RenderPresent(this->_renderer);

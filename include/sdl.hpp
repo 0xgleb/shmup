@@ -14,7 +14,7 @@ class Sdl {
 		~Sdl();
 		void delay(int duration);
 		SDL_Texture* createTexture(const char *path);
-		void render(Ship &player, List& enemies);
+		void render(Ship &player, List<Ship>& enemies);
 	private:
 		SDL_Window *_win;
 		SDL_Renderer *_renderer;

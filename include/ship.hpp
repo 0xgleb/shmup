@@ -5,6 +5,8 @@
 #include "list.hpp"
 #include <SDL2/SDL.h>
 
+template<class T> class List;
+
 class Ship: public Body {
 	public:
 		Ship(int x, int y, int selX, int selY, int selW, int selH);
@@ -13,11 +15,12 @@ class Ship: public Body {
 		void shoot();
 		int health();
 		int health(int arg);
-		List& bullets();
+		List<Body>* bullets();
 		SDL_Texture* texture();
 		SDL_Texture* texture(SDL_Texture *newTexture);
+		int getDamage(int lostHp);
 	private:
-		List _bullets;
+		List<Body>* _bullets;
 		int _health;
 		SDL_Texture *_texture;
 		SDL_Rect *_selection;

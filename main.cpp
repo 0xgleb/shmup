@@ -22,13 +22,14 @@ int main() {
 	player.bullets()->selection(constant::bullet::selX, constant::bullet::selY, 
 			constant::bullet::selW, constant::bullet::selH);
 
-	Ship enemy((constant::window::width - constant::enemy::selW) / 2,
-			constant::enemy::selH, constant::enemy::selX, 
-			constant::enemy::selY, constant::enemy::selW, constant::enemy::selH);
-	enemy.texture(sdl.createTexture(constant::sprites));
-	
 	List<Ship> enemies;
-	enemies.addNode(&enemy);
+	enemies.addNode(new Ship ((constant::window::width - constant::enemy::selW) / 3,
+			constant::enemy::selH, constant::enemy::selX, constant::enemy::selY, 
+			constant::enemy::selW, constant::enemy::selH));
+	enemies.addNode(new Ship (2 * (constant::window::width - constant::enemy::selW) / 3,
+			constant::enemy::selH, constant::enemy::selX, constant::enemy::selY, 
+			constant::enemy::selW, constant::enemy::selH));
+
 	enemies.texture(sdl.createTexture(constant::sprites));
 	enemies.selection(constant::enemy::selX, constant::enemy::selY,
 			constant::enemy::selW, constant::enemy::selH);
@@ -101,23 +102,20 @@ int main() {
 			break;
 
 		if(right ^ left)
-			player.velocity().x() = right? constant::player::speed 
-				: - constant::player::speed;
+			player.velocity().x() = right? constant::player::speed : - constant::player::speed;
 		else
 			player.velocity().x() = 0;
 
 		if(up ^ down)
-			player.velocity().y() = down ? constant::player::speed 
-				: - constant::player::speed;
+			player.velocity().y() = down ? constant::player::speed : - constant::player::speed;
 		else
 			player.velocity().y() = 0;
 
 		player.coord() += player.velocity();
 		if(player.coord().x() < 0 || 
 				constant::window::width - constant::player::selW < player.coord().x())
-			player.coord().x() = 
-				(player.coord().x() < 0) ? 0 : 
-				constant::window::width - constant::player::selW;
+			player.coord().x() = (player.coord().x() < 0) ? 0 : 
+					constant::window::width - constant::player::selW;
 		if(player.coord().y() < (2 * constant::window::height / 3) || 
 				constant::window::height-constant::player::selH < player.coord().y())
 			player.coord().y() = 
@@ -125,13 +123,14 @@ int main() {
 				? 2 * constant::window::height / 3 
 				: constant::window::height - constant::player::selH;
 
-		player.bullets()->update();
-
+		player.bullets()->update(constant::bullet::selH);
+		enemies.update(constant::enemy::selH);
 		doDamage(enemies, *player.bullets());
 
+		changeVelocity(enemies, player);
+
 		sdl.render(player, enemies);
-    SDL_Delay(1000 / constant::fps 
-				+ static_cast<int>((begin - clock()) / CLOCKS_PER_SEC) * 1000);
+    SDL_Delay(1000/constant::fps + static_cast<int>((begin-clock())/CLOCKS_PER_SEC)*1000);
 	}
 
 	return 0;

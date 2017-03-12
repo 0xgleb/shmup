@@ -7,6 +7,11 @@ Vector::Vector(int x, int y) {
 	this->_y = y;
 }
 
+Vector Vector::abs() {
+	Vector newVector(std::abs(this->x()), std::abs(this->y()));
+	return newVector;
+}
+
 int& Vector::x() {
 	return this->_x;
 }
@@ -27,6 +32,12 @@ Vector Vector::operator+(Vector& second) {
 
 Vector Vector::operator-(Vector& second) {
 	Vector newVector(this->x() - second.x(), this->y() - second.y());
+	return newVector;
+}
+
+Vector Vector::operator/(Vector second) {
+	Vector newVector((second.x()) ? this->x() / second.x() : this->x(), 
+			(second.y()) ? this->y() / second.y() : this->y());
 	return newVector;
 }
 

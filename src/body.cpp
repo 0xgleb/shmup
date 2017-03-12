@@ -24,7 +24,7 @@ SDL_Rect* Body::destination() {
 Vector& Body::coord() {
 	return this->_coord;
 }
-Vector& Body::coord(Vector newVector) {
+Vector& Body::coord(Vector& newVector) {
 	this->_coord = newVector;
 	return this->_coord;
 }
@@ -32,7 +32,7 @@ Vector& Body::coord(Vector newVector) {
 Vector& Body::velocity() {
 	return this->_velocity;
 }
-Vector& Body::velocity(Vector newVector) {
+Vector& Body::velocity(Vector& newVector) {
 	this->_velocity = newVector;
 	return this->_velocity;
 }

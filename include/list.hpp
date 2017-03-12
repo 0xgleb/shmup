@@ -26,9 +26,11 @@ template<class T> class List {
 		SDL_Rect* selection();
 		int count();
 		void render(SDL_Renderer *renderer);
-		void update();
+		void update(int height);
 		int countIntersections(Vector& coord, int width, int height);
 		friend void doDamage(List<Ship>& enemies, List<Body>& bullets);
+		friend void changeVelocity(List<Ship>& enemies, Ship &player);
+		friend Ship* findIntersections(List<Ship>& objects, struct node<Ship> *target);
 	private:
 		SDL_Texture *_texture;
 		SDL_Rect *_selection;
@@ -107,10 +109,10 @@ template<class T> int List<T>::count() {
 	return count;
 }
 
-template<class T> void List<T>::update() {
+template<class T> void List<T>::update(int height) {
 	struct node<T> *current = this->_first;
 	while(current) {
-		if(current->val->coord().y() + constant::bullet::selH > 0) {
+		if(current->val->coord().y() + height > 0) {
 			current->val->coord() += current->val->velocity();
 			current = current->next;
 		}
@@ -133,7 +135,7 @@ template<class T> int List<T>::countIntersections(Vector& coord, int width, int 
 	struct node<T> *current = this->_first;
 	for(count = 0; current; current = (current) ? current->next : NULL) {
 		tmp = (current->val->coord() - coord);
-		if(tmp.x() <= width && tmp.y() <= height) {
+		if(abs(tmp.x()) <= width && abs(tmp.y()) <= height) {
 			current = this->delNode(current);
 			count++;
 		}

@@ -11,9 +11,9 @@ class Body {
 		~Body();
 		SDL_Rect* destination();
 		Vector& coord();
-		Vector& coord(Vector newVector);
+		Vector& coord(Vector& newVector);
 		Vector& velocity();
-		Vector& velocity(Vector newVector);
+		Vector& velocity(Vector& newVector);
 	protected:
 		Vector _coord;
 		Vector _velocity;

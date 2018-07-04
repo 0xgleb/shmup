@@ -36,18 +36,23 @@ Vector Vector::operator-(Vector& second) {
 }
 
 Vector Vector::operator/(Vector second) {
-	Vector newVector((second.x()) ? this->x() / second.x() : this->x(), 
-			(second.y()) ? this->y() / second.y() : this->y());
+	Vector newVector(
+		(second.x()) ? this->x() / second.x() : this->x(),
+		(second.y()) ? this->y() / second.y() : this->y()
+	);
+
 	return newVector;
 }
 
 Vector& Vector::operator+=(Vector& second) {
 	this->_x += second.x();
 	this->_y += second.y();
+
 	return *this;
 }
 
 std::ostream& Vector::operator<<(std::ostream& out) {
 	out << "(" << this->_x << ", " << this->_y << ")";
+
 	return out;
 }

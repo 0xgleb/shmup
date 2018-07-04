@@ -3,17 +3,34 @@
 
 void doDamage(List<Ship>& enemies, List<Body>& bullets) {
 	struct node<Ship> *current;
+
 	for(current = enemies._first; current; current = (current) ? current->next : NULL) {
-		current->val->applyDamage(20 * bullets.countIntersections(current->val->coord(), 
-					enemies._selection->w, enemies._selection->h));
+		current->val->applyDamage(20 * bullets.countIntersections(
+			current->val->coord(),
+			enemies._selection->w,
+			enemies._selection->h
+		));
+
 		if(current->val->health() <= 0) {
 			current = enemies.delNode(current);
-			enemies.addNode(new Ship((constant::window::width - constant::enemy::selW) / 3,
-					constant::enemy::selH, constant::enemy::selX, constant::enemy::selY, 
-					constant::enemy::selW, constant::enemy::selH));
-			enemies.addNode(new Ship(2 * (constant::window::width - constant::enemy::selW) / 3,
-					constant::enemy::selH, constant::enemy::selX, constant::enemy::selY, 
-					constant::enemy::selW, constant::enemy::selH));
+
+			enemies.addNode(new Ship(
+				(constant::window::width - constant::enemy::selW) / 3,
+				constant::enemy::selH,
+				constant::enemy::selX,
+				constant::enemy::selY,
+				constant::enemy::selW,
+				constant::enemy::selH
+			));
+
+			enemies.addNode(new Ship(
+				2 * (constant::window::width - constant::enemy::selW) / 3,
+				constant::enemy::selH,
+				constant::enemy::selX,
+				constant::enemy::selY,
+				constant::enemy::selW,
+				constant::enemy::selH
+			));
 		}
 	}
 }

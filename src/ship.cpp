@@ -27,8 +27,13 @@ int Ship::health(int arg) {
 }
 
 void Ship::shoot() {
-	Body *bullet = new Body(this->_coord.x() + this->_destination->w /2, this->_coord.y(),
-			this->_bullets->selection()->w, this->_bullets->selection()->h);
+	Body *bullet = new Body(
+		this->_coord.x() + this->_destination->w / 2,
+		this->_coord.y(),
+		this->_bullets->selection()->w,
+		this->_bullets->selection()->h
+	);
+
 	bullet->velocity().x(this->velocity().x());
 	bullet->velocity().y(this->velocity().y() - 20);
 	this->_bullets->addNode(bullet);

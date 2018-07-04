@@ -45,23 +45,30 @@ template<class T> List<T>::List() {
 template<class T> List<T>::~List() {
 	if(!this->_first)
 		return;
+
 	struct node<T> *current = this->_first;
+
 	while(current->next) {
 		current = current->next;
 		delete current->prev;
 	}
+
 	delete current;
+
 	if(this->_texture)
 		SDL_DestroyTexture(this->_texture);
 }
 
 template<class T> struct node<T>* List<T>::addNode(T *element) {
 	struct node<T> *newNode = new struct node<T>;
+
 	newNode->prev = NULL;
 	newNode->next = this->_first;
 	newNode->val = element;
+
 	if(this->_first)
 		this->_first->prev = newNode;
+
 	return this->_first = newNode;
 }
 
@@ -74,15 +81,18 @@ template<class T> struct node<T>* List<T>::delNode(struct node<T> *target) {
 			this->_first->prev = NULL;
 			return this->_first->next;
 		}
-		
+
 		return NULL;
 	}
 
 	struct node<T> *prev = target->prev;
 	prev->next = target->next;
+
 	if(target->next)
 		target->next->prev = prev;
+
 	delete target;
+
 	return prev->next;
 }
 
@@ -123,8 +133,7 @@ template<class T> void List<T>::update(int height) {
 template<class T> void List<T>::render(SDL_Renderer* renderer) {
 	struct node<T> *current = this->_first;
 	while(current) {
-		SDL_RenderCopy(renderer, this->_texture, this->_selection, 
-				current->val->destination());
+		SDL_RenderCopy(renderer, this->_texture, this->_selection, current->val->destination());
 		current = current->next;
 	}
 }
